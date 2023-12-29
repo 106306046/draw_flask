@@ -10,6 +10,7 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
+PIPE = load_model()
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -55,7 +56,7 @@ def upload_file():
         #     base64_string = base64.b64encode(image_data).decode('utf-8')
         
         
-        generated_img = image_process(pipe = pipe, image= img)
+        generated_img = image_process(pipe = PIPE, image= img)
         base64_generated_img = return_img_base64(generated_img)
 
         return jsonify({'base64_image': base64_generated_img})
@@ -97,5 +98,4 @@ def upload_file():
     #     return jsonify({'error': 'Invalid file type'})
 
 if __name__ == '__main__':
-    pipe = load_model()
     app.run(debug=True, port=8001)

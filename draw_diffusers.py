@@ -9,6 +9,15 @@ from PIL import Image, ImageOps
 from transformers import pipeline
 from diffusers import StableDiffusionControlNetImg2ImgPipeline, ControlNetModel, UniPCMultistepScheduler
 
+controlnet_checkpoint = "lllyasviel/control_v11f1p_sd15_depth"
+stablediffusion_checkpoint = "runwayml/stable-diffusion-v1-5"
+
+prompt = 'wooden textur in the style of pixelart'
+negative_prompt = 'worst quality, normal quality, low quality, low res, blurry, text, watermark, logo, banner, extra digits, cropped, jpeg artifacts, signature, username, error, sketch ,duplicate, ugly, monochrome, horror, geometry, mutation, disgusting'
+seed = torch.manual_seed(8877)
+step = 20
+guidance_scale = 10
+    
 def get_canny(image):
     
     canny_image = cv2.Canny(np.array(image), 100, 200,)
@@ -67,16 +76,12 @@ def get_depth(image):
 
     ### 3 
     image_invert = ImageOps.invert(image)
-    image_invert
-
+    
     return image_invert
 
 def load_model():
 
     print("get model")
-
-    controlnet_checkpoint = "lllyasviel/control_v11f1p_sd15_depth"
-    stablediffusion_checkpoint = "runwayml/stable-diffusion-v1-5"
 
     # model
 
@@ -94,20 +99,12 @@ def load_model():
 
 
     pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config)
-    
-    torch.cuda.empty_cache()
 
     return pipe
 
 def image_process(pipe, image): 
 
     print("image process")
-
-    prompt = 'wooden textur in the style of pixelart'
-    negative_prompt = 'worst quality, normal quality, low quality, low res, blurry, text, watermark, logo, banner, extra digits, cropped, jpeg artifacts, signature, username, error, sketch ,duplicate, ugly, monochrome, horror, geometry, mutation, disgusting'
-    seed = torch.manual_seed(8877)
-    step = 20
-    guidance_scale = 10
     
     # get canny image
     canny_image = get_canny(image)
