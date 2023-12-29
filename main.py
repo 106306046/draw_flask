@@ -55,7 +55,6 @@ def upload_file():
         #     base64_string = base64.b64encode(image_data).decode('utf-8')
         
         
-        pipe = load_model()
         generated_img = image_process(pipe = pipe, image= img)
         base64_generated_img = return_img_base64(generated_img)
 
@@ -98,4 +97,5 @@ def upload_file():
     #     return jsonify({'error': 'Invalid file type'})
 
 if __name__ == '__main__':
+    pipe = load_model()
     app.run(debug=True, port=8001)
