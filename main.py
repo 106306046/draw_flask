@@ -5,6 +5,8 @@ import base64
 import os
 from sd_api import paints_generation
 from draw_diffusers import load_model, image_process
+from datetime import datetime
+
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'uploads'
@@ -39,7 +41,7 @@ def upload_file():
         img = Image.open(io.BytesIO(image_data)).convert('RGB')
 
         # 儲存圖片
-        img.save('uploads/image.jpg', 'JPEG')
+        img.save('uploads/'+datetime.now().strftime("%Y_%m_%d_%I_%M_%S_%p")+'.jpg', 'JPEG')
 
         # base64_string = paints_generation('uploads/image.jpg')
 
@@ -57,6 +59,8 @@ def upload_file():
         
         
         generated_img = image_process(pipe = PIPE, image= img)
+        generated_img.save('outputs/'+datetime.now().strftime("%Y_%m_%d_%I_%M_%S_%p")+'.jpg','JPEG')
+        
         base64_generated_img = return_img_base64(generated_img)
 
         return jsonify({'base64_image': base64_generated_img})
@@ -98,4 +102,4 @@ def upload_file():
     #     return jsonify({'error': 'Invalid file type'})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8001)
+    app.run(debug=True, use_reloader=False, port=8001)
