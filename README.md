@@ -57,7 +57,7 @@ Python main.py
 
 ```python
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False, port=8001)
+    app.run(host='192.168.0.232', debug=True, use_reloader=False, port=8001)
 ```
 
 * change prompt and other params in **draw_diffusers.py**.
