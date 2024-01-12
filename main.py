@@ -27,6 +27,10 @@ def return_img_base64(img):
     img_base64 = base64.b64encode(img_byte_array.getvalue()).decode('utf-8')
     return img_base64
 
+@app.route('/')
+def hello():
+    return 'Hello world!'
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     try:
@@ -102,4 +106,4 @@ def upload_file():
     #     return jsonify({'error': 'Invalid file type'})
 
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False, port=8001)
+    app.run(host='192.168.0.232', debug=True, use_reloader=False, port=8001)
