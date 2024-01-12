@@ -55,14 +55,14 @@ Python main.py
 
 * change server port number in **main.py**.
 
-```
+```python
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False, port=8001)
 ```
 
 * change prompt and other params in **draw_diffusers.py**.
 
-```
+```python
 controlnet_checkpoint = "lllyasviel/control_v11f1p_sd15_depth"
 stablediffusion_checkpoint = "runwayml/stable-diffusion-v1-5"
 
