@@ -3,6 +3,7 @@ import requests
 import io
 import base64
 import cv2
+from datetime import datetime
 from PIL import Image
 
 url = "http://127.0.0.1:7860"
@@ -20,7 +21,7 @@ def paints_generation(img_input):
     payload = {
         "prompt": "<lora:LORA_BCI_1:1>",
         "negative_prompt": "",
-        "batch_size": 1,
+        "batch_size": 4,
         "steps": 18,
          "cfg_scale": 6,
         "alwayson_scripts": {
@@ -42,7 +43,5 @@ def paints_generation(img_input):
 
     r = response.json()
 
-    image = Image.open(io.BytesIO(base64.b64decode(r['images'][0])))
-    image.save('output.png')
 
-    return r['images'][0]
+    return r['images']

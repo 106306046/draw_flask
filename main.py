@@ -105,5 +105,51 @@ def upload_file():
     # else:
     #     return jsonify({'error': 'Invalid file type'})
 
+@app.route('/upload_imgs', methods=['POST'])
+def upload_file_2():
+    try:
+        # 從 POST 請求中取得 base64 字串
+        data = request.json
+        base64_string = data.get('image')
+
+        # 解碼 base64 字串成二進制資料
+        image_data = base64.b64decode(base64_string)
+
+        # 將 bytes 資料轉換為圖片
+        img = Image.open(io.BytesIO(image_data)).convert('RGB')
+        
+        # 儲存圖片
+        img_path = 'uploads/'+datetime.now().strftime("%Y_%m_%d_%I_%M_%S_%p") + '_4_return' +'.jpg'
+        
+        img.save(img_path, 'JPEG')
+        
+
+        
+        
+        generated_img = paints_generation(img_path)
+        base64_generated_img = [""] * 4
+        
+        for i in range(4):
+            try:
+                image = Image.open(io.BytesIO(base64.b64decode(generated_img[i])))
+                image.save('outputs/' + datetime.now().strftime("%Y_%m_%d_%I_%M_%S_%p") + str(i+1) + '.jpg', 'JPEG')
+                base64_generated_img[i] = return_img_base64(image)
+            except Exception as e:
+                print(f"Error saving or processing image {i}: {e}")
+        
+       
+        
+
+        return jsonify({'base64_image1': base64_generated_img[0],
+                        'base64_image2': base64_generated_img[1],
+                        'base64_image3': base64_generated_img[2],
+                        'base64_image4': base64_generated_img[3]})
+
+        
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
 if __name__ == '__main__':
     app.run(host='192.168.0.232', debug=True, use_reloader=False, port=8001)
