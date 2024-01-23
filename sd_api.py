@@ -10,6 +10,7 @@ url = "http://127.0.0.1:7860"
 
 def paints_generation(img_input):
 
+    print('paints_generation')
 
     # Read Image in RGB order
     img = cv2.imread(img_input)
@@ -40,8 +41,7 @@ def paints_generation(img_input):
     }
 
     response = requests.post(url=f'{url}/sdapi/v1/txt2img', json=payload)
-
     r = response.json()
-
+    print(r)
 
     return r['images']

@@ -33,6 +33,7 @@ def hello():
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
+    print('upload')
     try:
         # 從 POST 請求中取得 base64 字串
         data = request.json
@@ -107,6 +108,7 @@ def upload_file():
 
 @app.route('/upload_imgs', methods=['POST'])
 def upload_file_2():
+    print('upload_imgs')
     try:
         # 從 POST 請求中取得 base64 字串
         data = request.json
@@ -123,9 +125,6 @@ def upload_file_2():
         
         img.save(img_path, 'JPEG')
         
-
-        
-        
         generated_img = paints_generation(img_path)
         base64_generated_img = [""] * 4
         
@@ -137,8 +136,6 @@ def upload_file_2():
             except Exception as e:
                 print(f"Error saving or processing image {i}: {e}")
         
-       
-        
 
         return jsonify({'base64_image1': base64_generated_img[0],
                         'base64_image2': base64_generated_img[1],
@@ -148,6 +145,7 @@ def upload_file_2():
         
 
     except Exception as e:
+        print(e)
         return jsonify({'error': str(e)}), 400
 
 
