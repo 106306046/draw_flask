@@ -6,7 +6,7 @@ import cv2
 from datetime import datetime
 from PIL import Image
 
-url = "http://127.0.0.1:7860"
+url = "http://127.0.0.1:7861"
 
 def paints_generation(img_input):
 
@@ -22,13 +22,16 @@ def paints_generation(img_input):
     payload = {
         "prompt": "<lora:LORA_BCI_1:1>",
         "negative_prompt": "",
+        "width": 780,
+        "height": 580,
         "batch_size": 4,
-        "steps": 18,
-         "cfg_scale": 6,
+        "steps": 5,
+        "cfg_scale": 6,
         "alwayson_scripts": {
             "controlnet": {
                 "args": [
                     {
+                        "preprocessor":"scribble_pidinet",
                         "input_image": encoded_image,
                         "model": "control_sd15_scribble [fef5e48e]",
                         "control_mode": 2,
