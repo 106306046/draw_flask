@@ -6,7 +6,7 @@ import cv2
 from datetime import datetime
 from PIL import Image
 
-url = "http://127.0.0.1:7861"
+url = "http://127.0.0.1:7860"
 
 def paints_generation(img_input):
 
